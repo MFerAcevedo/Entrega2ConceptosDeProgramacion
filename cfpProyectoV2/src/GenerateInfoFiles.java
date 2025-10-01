@@ -43,9 +43,12 @@ public class GenerateInfoFiles {
 	// Declaracion del metodo para crear el archivo con los productos el cual recibe
 	// como parametro de entrada la cantidad de productos que almacenamos en el
 	// arreglo
+	/**
+	 * Creamos el archivo .csv el cual contiene un ciclo for para recorrer los
+	 * productos Genera un número de identificación aleatorio
+	 */
 	public static void createProductsFile(int productsCount) throws Exception {
-		// Creamos el archivo .csv el cual contiene un ciclo for para recorrer los
-		// productos
+
 		try (PrintWriter writer = new PrintWriter("productos.csv", "UTF-8")) {
 			for (int i = 0; i < productsCount; i++) {
 				writer.println((i + 1) + ";" + PRODUCTOS_NOMBRES[i] + ";" + PRODUCTOS_PRECIOS[i]);
@@ -55,6 +58,7 @@ public class GenerateInfoFiles {
 
 	}
 
+	// Se usa PrintWriter para generar en el archivo "vendedores.csv"
 	public static void createSalesManInfoFile(int salesmanCount) throws Exception {
 		Random rand = new Random();
 
@@ -64,12 +68,11 @@ public class GenerateInfoFiles {
 
 			for (int i = 0; i < salesmanCount; i++) {
 				long id = 105478600 + rand.nextInt(105542700);
-				// String nombre = NOMBRES[rand.nextInt(NOMBRES.length)];
 				nombre = NOMBRES[i];
 				apellidos = APELLIDOS[i];
 				/*
-				 * writer.println(TIPOS_DOC[rand.nextInt(TIPOS_DOC.length)] + ";" + id + ";" +
-				 * nombre + ";" + APELLIDOS[rand.nextInt(APELLIDOS.length)]);
+				 * Escribe la línea en el archivo CSV con tipo de documento, ID, nombre y
+				 * apellido
 				 */
 				writer.println(TIPOS_DOC[rand.nextInt(TIPOS_DOC.length)] + ";" + id + ";" + nombre + ";" + apellidos);
 				createSalesMenFile(rand.nextInt(4) + 2, nombre, apellidos, id);
@@ -78,25 +81,25 @@ public class GenerateInfoFiles {
 		}
 	}
 
+	/*
+	 * Genera un archivo CSV con información básica de un vendedor y una lista de
+	 * ventas simuladas. El nombre del archivo se construye usando el ID, nombre y
+	 * apellidos del vendedor.
+	 */
+
 	public static void createSalesMenFile(int randomSalesCount, String name, String apellidos, long id)
 			throws Exception {
 
 		Random rand = new Random();
-
+		// Construye el nombre del archivo con el formato: vendedor_ID_Nombre - Apellidos.csv
 		String fileName = "vendedor_" + id + "_" + name + " " + apellidos + ".csv";
-
 		try (PrintWriter writer = new PrintWriter(fileName, "UTF-8")) {
-
 			writer.println(TIPOS_DOC[rand.nextInt(TIPOS_DOC.length)] + ";" + id + ";" + name + " " + apellidos);
-
+			// Genera las lines de ventas de manera aleatoria
 			for (int i = 0; i < randomSalesCount; i++) {
-
 				writer.println((rand.nextInt(PRODUCTOS_NOMBRES.length) + 1) + ";" + (rand.nextInt(10) + 1) + ";");
 
 			}
-
 		}
-
 	}
 
-}
